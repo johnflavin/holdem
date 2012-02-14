@@ -3,7 +3,7 @@ class PokerHandType:
 
 	def __init__(self,poker_hand):
 		self.hand = poker_hand
-		self.name = 'Hand Type'
+		self.string = 'Hand Type'
 
 	def __lt__(self, other):
 		if self.rank == other.rank:
