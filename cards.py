@@ -10,11 +10,14 @@ class Card:
 		The 10 of clubs is "greater than" the 9 of spades according to >.
 		If you want value and suit rankings, use card1.ltstrict(card2), card1.lestrict(card2), etc.
 
-		card.string() returns a string "'value' of 'suit'".
+		card.string(self) returns a string "'value' of 'suit'".
 
 		Card has two constant dictionaries, Card.suits and Card.values, that
 		convert the numerical suits and values to strings. For instance,
 		Card.suits[0] = 'clubs'.
+
+		Card.list_string(card_list)
+			Returns a string '"value0" of "suit0", "value1" of "suit1", ...' for all the cards in card_list.
 		'''
 	suits = {0:'clubs', 1:'diamonds', 2:'hearts', 3:'spades'}
 	values = {0:'2',1:'3',2:'4',3:'5',4:'6',5:'7',6:'8',7:'9',8:'10',9:'J',10:'Q',11:'K',12:'A'}
@@ -72,6 +75,9 @@ class Card:
 	def string(self):
 		return '{} of {}'.format(self.name,self.suitname)
 
+	def list_string(card_list):
+		return ', '.join( [card.string() for card in card_list] )
+
 class Deck:
 	'''Deck impliments a deck of playing cards using the Card class.
 
@@ -108,7 +114,7 @@ class Deck:
 				dealt_cards.append( self.deal_one() )
 		else:
 			dealt_cards = self.deal_one()
-			
+
 		return dealt_cards
 	
 	def deal_one(self):
