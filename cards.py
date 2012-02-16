@@ -95,7 +95,7 @@ class Deck:
 			If both arguments are > 1, returns a length-num_players list of length-num_cards_per_player lists of Cards.
 		'''
 	def __init__(self):
-		self.deck = [Card(integer) for integer in list(range(52))]
+		self.deck = list(range(52))
 
 	def deal(self,num_players=1,num_cards_per_player=1):
 		if num_players > 1 and num_cards_per_player > 1:
@@ -118,8 +118,8 @@ class Deck:
 		return dealt_cards
 	
 	def deal_one(self):
-		card = choice(self.deck)
+		integer = choice(self.deck)
 
-		self.deck.remove(card)
+		self.deck.remove(integer)
 
-		return card
+		return Card(integer)
