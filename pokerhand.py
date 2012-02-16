@@ -239,7 +239,7 @@ class HoldEmHand(PokerHand):
 					# 2. the pair we have now is better than the previous pair
 					# ...then update the pair
 					elif best_hand.rank == FullHouse.rank and best_hand.cards[0] < card:
-						trips_old = best_cards[-3:]
+						trips_old = best_hand.cards[-3:]
 						best_hand = FullHouse(same_value+trips_old)
 						continue
 					##########
