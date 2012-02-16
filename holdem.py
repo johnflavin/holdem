@@ -13,7 +13,7 @@ class HoldEm:
 		self.community_cards = deck.deal(1,5)	
 		# Make the hands
 		self.hands = [pokerhand.HoldEmHand(hole_cards+self.community_cards) for hole_cards in self.all_hole_cards]
-
+		
 		# Rank them by the PokerHandType
 		best_hands = [hand.best_hand for hand in self.hands]
 		top_hand = max(best_hands)
@@ -22,3 +22,6 @@ class HoldEm:
 		# Put all the hands with the top rank in one list, and the others in another
 		self.winners = [ hand for hand in self.hands if hand.best_hand == top_hand ]
 		self.losers = [ hand for hand in self.hands if hand not in self.winners ]
+
+	def card_list_string(card_list):
+		return cards.Card.list_string(card_list)
