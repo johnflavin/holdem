@@ -1,4 +1,61 @@
 Hold'em
 John Flavin
 
-Nothing yet. Reviewing old code to clean up and upload.
+holdem.py
+=========
+
+Impliments a game of Texas Hold'Em (with no betting; every player checks at every action).
+class holdem.HoldEm(int num_players)
+	Deals out Card objects (see cards.py) and creates HoldEmHand objects (see pokerhand.py). The HoldEmHand objects have as a data member the highest-ranked hand possible for each player. These highest-ranked hands are instances of Pair or TwoPair or Trips or... which are all child classes of the PokerHandType class (see pokerhandtype.py). HoldEm then compares each player's best hands and determines who won and who lost.
+
+	self.num_players
+		The number of players in the game. Deals two Cards face-down to each player (their hole cards) and five cards face-up for everyone to share.
+
+	self.all_hole_cards
+		A length-num_players list of length-2 lists of Card objects.
+
+	self.community_cards
+		A list of five Cards.
+
+	self.hands
+		A length-num_players list of HoldEmHand objects. (See description above.)
+
+	self.winners
+		A list of length at least 1 holding the HoldEmHand object(s) that won the hand. (If there are more than one, they technically split rather than won.)
+	
+	self.losers
+		A list of all the hands that did not win (or split).
+
+	There is also one constant method:
+	HoldEm.card_list_string( card_list )
+		Takes a list of Card objects and returns a single string with the names of the cards separated by commas. E.g. '3 of clubs, 10 of hearts, A of clubs, A of spades'.
+
+holdem_statistics.py
+====================
+
+Run from the command line. Pass two arguments: an integer for the number of players and an integer for the order of magnitude of the hands to play. For instance, to play one hand with two players, run 'python holdem_statistics.py 2 0'; to play one million hands with four players, run 'python holdem_statistics.py 4 6'.
+
+Takes an optional argument "--name 'filename'" which will write the results to the file 'filename'. By default writes to '(#players)players.csv'. I.e. a two-player game would be written to '2players.csv'.
+
+Before playing any games, the program will read in data from 'filename' if it exists. This allows you to append new data to old data and get better statistics without having to run 10^8 hands (or so) all in one go.
+
+Outputs a formatted csv file with the following information:
+	#hands, #players
+	Cards seen
+		In order to verify that the cards are being drawn from a uniform distribution, we record the number of times each card has been seen and divide each number by the total number of cards seen. This is expected to approach 1/52 for each card (and the decimal expansion of 1/52 is shown at left).
+
+	Hands Seen
+		The number of times each hand has been seen, and its percentage of the total # of hands.
+
+	Hands Seen Win
+		The number of times each hand has been seen to win. Below is the win percentage of the hand, calculated as number_of_times_hand_has_won / number_of_times_hand_was_seen.
+		
+	Suited Win / Loss / Split Matrices
+		The number of times that certain hole cards ended up winning the hand. For information on reading the matrix, see Suited Win % (below). 
+
+	Suited Win % Matrix
+		The win percentage of certain hole cards, calculated as number_of_times_hole_cards_won / number_of_times_hole_cards_were_seen. Data is expressed in the lower part of a triangular matrix. So say you are in a game with X players, preflop, and you have A K suited. You would look in the Xplayers.csv file in the suited win % matrix and find the A K entry. This tells you the percentage of hands that these two cards will win ON AVERAGE, and ignoring all player decisions.
+
+	Unsuited Win / Loss / Split Matrices
+	Unsuited Win % Matrix
+		Same information as above two matrices, but for unsuited hole cards.
