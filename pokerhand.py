@@ -68,7 +68,7 @@ class PokerHand:
 		return Card.list_string( self.cards )
 
 	def best_string(self):
-		return self.best_hand.string, Card.list_string( self.best_hand.cards )
+		return self.best_hand.string(), Card.list_string( self.best_hand.cards )
 
 	def find_best_hand(self):
 		pass
