@@ -1,27 +1,46 @@
 from pokerhandtype import *
 from cards import Card
 
-class PokerHand:
-	'''Poker Hand
-		A virtual class, meant to be derived into a child class that knows the rules of some poker game. See find_best_hand.
+'''class pokerhand.PokerHand(list of cards)
+		A virtual class, meant to be derived into a child class that knows the rules of some poker game. See find_best_hand method in HoldEmHand.
 
-		Hands can be compared using comparison operators <, <=, >, >=, ==, and !=. These operators will compare the PokerHandTypes stored in best_hand.
+		PokerHand objects can be compared using comparison operators <, <=, >, >=, ==, and !=. These operators will compare the PokerHandType objectss stored in best_hand.
 		
-		hand.cards 
-			Holds a sorted list of Cards
-		hand.best_hand 
+		self.cards 
+			Holds a sorted list of Card objects
+
+		self.best_hand 
 			A PokerHandType child class which is the best hand given the cards and the rules of the game
 
-		hand.string()
-			Returns a string formatted as "card.string(), card.string(), ..." for all the cards in hand.cards
+		self.string()
+			Returns a string formatted as "card.string(), card.string(), ..." for all the Card objects in self.cards
 		
-		hand.best_string()
+		self.best_string()
 			Returns the string stored in whichever PokerHandType is stored in best_hand. Formatted something like "Pair of {}s" or "{} High", etc.
 
-		hand.find_best_hand() 
-			In each child class, write this method to look at self.cards and find the best PokerHandType those cards support.
-			This is based on the rules of the game you are playing.
+		self.find_best_hand() 
+			Write this method (in each PokerHand child class) to look at self.cards and find the best PokerHandType those cards support, based on the rules of the game you are playing.
+		
+	class pokerhand.HoldEmHand
+		A child class of PokerHand.
+
+		self.find_best_hand()
+			This method does a lot of the work in each game of HoldEm, looking at the cards and finding the best PokerHandType. 
+			It first tests the cards for a flush, then a straight flush, and a straight. It then iterates through all the unique-valued cards, checking for pairs,
+			two pairs, threes of a kind, and fours of a kind, and appropriately updating the best hand as appropriate.
+			The method has comments at each step, so read through them if you are curious about the execution.
+
+		self.straight(self,unique_vals)
+			Tests the unique-valued list of cards in unique_vals for a straight. Calls the method straight_test_once with the list. If this does not find a 
+			straight, we check to see if the highest card in the list is an Ace. If this is so we move the Ace to the bottom of the list and check again,
+			returning the result.
+
+		self.straight_test_once(self,unique_vals)
+			For each five-card window in the list, tests cards 0, 1, 2, and 3 (all plus one) for equality with cards 1, 2, 3, and 4. 
+			If all those are true, then the cards are in numerical order (and, hence, in a straight), and that list is returned. Otherwise returns an empty list.
 		'''
+
+class PokerHand:
 	def __init__(self,cards):
 		self.cards = list(cards)
 		self.cards.sort()
